@@ -14,11 +14,17 @@
                 <%for(post  of post) {%>
                         <li>
                                 <p>
+                                        <%if((locals.user) && (locals.user.id == post.user.id)){%>
+                                        <small>
+                                                <a href="/post/destroy/<%=post._id%>">X</a>
+                                        </small>
+                                        <%}%>
                                         <%= post.content%><br>
                                 <small><%= post.user.name%></small>
                                 </p>
                                 <div class="post-comments">
                                         <%if(locals.user) {%>
+
                                                 <form action="/comments/create" method="POST">
                                                         <input type="text" name  = "content" placeholder="type your comment...." required>
                                                         <input type="hidden" name  = "post" value = "<%=post._id%>">
@@ -29,6 +35,9 @@
                                                 <ul id  = "post-comments-<%=post._id%>">
                                                         <%for(comment of post.comments) {%>
                                                                 <p>
+                                                                        <small>
+                                                                                <a href="/comments/destroy/<%=comment._id%>">X</a>
+                                                                        </small>
                                                                         <%=comment.content%>
                                                                         <br>
                                                                         <small>
