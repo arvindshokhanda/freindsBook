@@ -2,22 +2,22 @@ const { findOne } = require('../models/user');
 const User = require('../models/user')
 
 module.exports.profile = function(req, res){
-//    if(req.cookies.user_id){
-//         User.findById(req.cookies.user_id, function(err, user){
-//             if(user){
-//                 return res.render('user_profile',{
-//                     title:"Profile",
-//                     user: user
-//                 });
-//             }
-//             return res.redirect('/users/sign-in');
-//         });
-//    }else{
-//         res.redirect('/users/sign-in');
-//    }
-    return res.render('user_profile', {
-        title: 'profile'
-    });
+    User.findById(req.params.id, function(err, user){
+        return res.render('user_profile', {
+            title: 'profile',
+            profile_user: user
+        });
+    })
+   
+}
+module.exports.update = function(req, res){
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            return res.redirect('back');
+        })
+    }else{
+        return res.status(401).send('UnAuthorized');
+    }
 }
 
 //action for signUp page
