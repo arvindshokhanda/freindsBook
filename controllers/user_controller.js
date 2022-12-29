@@ -61,36 +61,10 @@ module.exports.create = function(req, res){
         }
    })
 }
-//creating the  session
-// module.exports.createSession = function(req, res){
-//     //find the user 
-//     User.findOne({email: req.body.email}, function(err, user){
-//         if(err){console.log('error in finiding the user in signing in');return;}
-
-//         if(user){
-//             if(user.password != req.body.password){
-//                 return res.redirect('back');
-//             }
-//             res.cookie('user_id', user.id);
-//             return res.redirect('/users/profile');
-//         }else{
-//             return res.redirect('back');
-//         }
-//     })
-// }
-// Delete a session
-// module.exports.deleteSession = function(req, res){
-//     if(req.cookies.user_id){
-//         res.clearCookie('user_id') ;
-//         return res.redirect('/users/sign-in');
-//     }else{
-//         return res.redirect('back');;
-//     }   
-// }
-
 //sign in and create a session for th user
 
 module.exports.createSession = function(req, res){
+    req.flash('success', 'Logged in Successfully');
     return res.redirect('/');
 }
 
@@ -99,7 +73,8 @@ module.exports.destroySession = function(req, res){
         if(err){
             return console.log(err);
         }
+        req.flash('success', 'Logged out Successfully');
+        return res.redirect('/');
     });
     
-    return res.redirect('/');
 }
